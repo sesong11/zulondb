@@ -1,3 +1,7 @@
 <zk xmlns:n="native">
-	<n:h1>Hello ZK Spring-boot</n:h1>
+	<div zclass="none" sclass="wrapper" ctrlKeys="#del"
+         viewModel="@id('vm') @init('com.example.zumlondb.vm.MainVM')"
+         validationMessages="@id('vmsgs')">
+		<include src="@load(vm.page)"/>
+	</div>
 </zk>
