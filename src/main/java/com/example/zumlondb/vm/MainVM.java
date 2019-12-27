@@ -7,6 +7,7 @@ import javax.servlet.ServletRequest;
 import org.springframework.web.servlet.HandlerMapping;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.util.Notification;
 
 import lombok.Getter;
 
@@ -21,6 +22,7 @@ public class MainVM {
 		HashMap<?, ?> pathVariables = (HashMap<?, ?>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 		String page = (String) pathVariables.get("page");
 		this.page = page+".zul";
+		Notification.show("Say Hello!!!", "warning", null, "middle_center", 0);
 	}
 
 }

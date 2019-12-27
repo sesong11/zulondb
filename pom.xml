@@ -18,7 +18,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<zkspringboot.version>1.0.4</zkspringboot.version>
-		<zk.version>8.6.0</zk.version>
+		<zk.version>9.0.0</zk.version>
 		<zats.version>2.0.0</zats.version>
 	</properties>
 	<repositories>
