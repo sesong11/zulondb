@@ -1,7 +1,127 @@
+<?link rel="shortcut icon" type="image/x-icon" href="resource/icon/favicon.ico" ?>
 <zk xmlns:n="native">
+	<style>
+		.grid-1 { 
+			display: grid; 
+			grid-template-columns: 1fr; 
+			grid-gap: 20px; 
+			margin: 15px; 
+		}
+		.grid-2 { 
+			display: grid; 
+			grid-template-columns: 1fr 1fr; 
+			grid-gap: 20px; 
+			margin: 15px; 
+		}
+	</style>
 	<div zclass="none" sclass="wrapper" ctrlKeys="#del"
-         viewModel="@id('vm') @init('com.example.zumlondb.vm.MainVM')"
-         validationMessages="@id('vmsgs')">
-		<include src="@load(vm.page)"/>
+		viewModel="@id('vm') @init('com.example.zumlondb.vm.MainVM')"
+		validationMessages="@id('vmsgs')">
+		<n:div class="grid-1">
+			<n:h3>Employees List</n:h3>
+			<listbox model="@load(vm.employees)"
+					selectedItem="@bind(vm.employee)" mold="paging" pageSize="10">
+				<listhead>
+					<listheader label="ID" width="80px" />
+					<listheader label="Name" width="150px" />
+					<listheader label="Email" width="150px" />
+					<listheader label="Note" />
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell label="${each.id}" />
+						<listcell label="${each.name}" />
+						<listcell label="${each.email}" />
+						<listcell label="${each.note}" />
+					</listitem>
+				</template>
+			</listbox>
+		</n:div>
+		<div sclass="grid-2" form="@id('fn') @load(vm.employee) @save(vm.employee, before='save') @validator(vm.formValidator)">
+			<n:div>
+				<n:h3>Employee Information</n:h3>
+				<grid>
+					<rows>
+						<row>
+							<cell width="150px">ID</cell>
+							<cell>
+								<textbox
+									value="@bind(vm.employee.id)" readonly="true" />
+								<label sclass="text-red"
+									value="@load(vmsgs['id'])" />
+							</cell>
+						</row>
+						<row>
+							<cell>Name (*)</cell>
+							<cell>
+								<textbox
+									value="@bind(vm.employee.name)" />
+								<label sclass="text-red"
+									value="@load(vmsgs['name'])" />
+							</cell>
+						</row>
+						<row>
+							<cell>Email (*)</cell>
+							<cell>
+								<textbox
+									value="@bind(vm.employee.email)" />
+								<label sclass="text-red"
+									value="@load(vmsgs['email'])" />
+							</cell>
+						</row>
+						<row>
+							<cell>Note</cell>
+							<cell>
+								<textbox
+									value="@bind(vm.employee.note)" rows="2" multiline="true" />
+								<label sclass="text-red"
+									value="@load(vmsgs['note'])" />
+							</cell>
+						</row>
+						<row>
+							<cell></cell>
+							<cell>
+								<button label="Save"
+									onClick="@command('save')" autodisable="self" />
+								<button label="Clear"
+									onClick="@command('clear')" autodisable="self" />
+								<button label="Delete"
+									onClick="@command('delete')" autodisable="self" />
+							</cell>
+						</row>
+					</rows>
+				</grid>
+			</n:div>
+			<n:div>
+				<n:h3>Employee's Task (s)</n:h3>
+				<listbox model="@load(vm.employee.tasks)"
+					mold="paging" pageSize="10">
+					<listhead>
+						<listheader label="ID" width="80px" />
+						<listheader label="Name" width="250px" />
+						<listheader label="Note" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell>
+								<textbox readonly="true"
+									value="@load(each.id)" inplace="true" width="100%" />
+							</listcell>
+							<listcell>
+								<textbox value="@bind(each.name)"
+									inplace="true" width="100%" />
+							</listcell>
+							<listcell>
+								<textbox value="@bind(each.note)"
+									inplace="true" multiline="true" rows="2" width="100%" />
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+				<label sclass="text-red" value="@load(vmsgs['tasks[].name'])" />
+				<n:br/>
+				<button label="Add Task" onClick="@command('addTask')" />
+			</n:div>
+		</div>
 	</div>
 </zk>
